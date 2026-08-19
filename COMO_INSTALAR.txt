@@ -1,0 +1,1 @@
+Para instalar como app no Android: publique esta pasta em um endereço HTTPS, abra no Chrome e use ⋮ > Instalar aplicativo/Adicionar à tela inicial. O arquivo HTML também pode ser aberto localmente, mas a instalação PWA completa normalmente exige HTTPS.
