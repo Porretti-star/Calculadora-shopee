@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Calculadora Shopee</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f5f5f5;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+    }
+    .container {
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      width: 100%;
+      max-width: 400px;
+      box-sizing: border-box;
+    }
+    h1 {
+      color: #ee4d2d;
+      text-align: center;
+      font-size: 24px;
+      margin-top: 0;
+      margin-bottom: 24px;
+    }
+    .input-group {
+      margin-bottom: 16px;
+    }
+    label {
+      display: block;
+      font-weight: bold;
+      margin-bottom: 6px;
+      color: #333;
+      font-size: 14px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+      font-size: 16px;
+      box-sizing: border-box;
+      outline: none;
+    }
+    input:focus {
+      border-color: #ee4d2d;
+    }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 20px;
+    }
+    button {
+      flex: 1;
+      padding: 14px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+    }
+    .btn-calc {
+      background-color: #ff4d2d;
+    }
+    .btn-save {
+      background-color: #2bb19c;
+    }
+    .saved-section {
+      margin-top: 24px;
+      border-top: 1px solid #eee;
+      padding-top: 16px;
+    }
+    .saved-title {
+      font-weight: bold;
+      color: #444;
+      font-size: 15px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Calculadora Shopee</h1>
+
+    <!-- Atributos no FORM para desativar o autocomplete global do navegador -->
+    <form autocomplete="off" action="javascript:void(0);" method="post">
+      
+      <div class="input-group">
+        <label for="prod_ref">Nome do Produto / Referência:</label>
+        <input 
+          type="text" 
+          id="prod_ref" 
+          name="item_referencia_x" 
+          placeholder="Ex: Areia Gato Bill Fardo" 
+          autocomplete="off" 
+          autofill="false" 
+          aria-autocomplete="none">
+      </div>
+
+      <div class="input-group">
+        <label for="val_custo">Preço de Custo (R$):</label>
+        <input 
+          type="text" 
+          id="val_custo" 
+          name="valor_custo_x" 
+          placeholder="0,00" 
+          inputmode="decimal" 
+          autocomplete="off" 
+          autofill="false" 
+          aria-autocomplete="none">
+      </div>
+
+      <div class="input-group">
+        <label for="val_venda">Preço de Venda (R$):</label>
+        <input 
+          type="text" 
+          id="val_venda" 
+          name="valor_venda_x" 
+          placeholder="0,00" 
+          inputmode="decimal" 
+          autocomplete="off" 
+          autofill="false" 
+          aria-autocomplete="none">
+      </div>
+
+      <div class="button-group">
+        <button type="button" class="btn-calc">Calcular</button>
+        <button type="button" class="btn-save">Salvar no Celular</button>
+      </div>
+
+    </form>
+
+    <div class="saved-section">
+      <div class="saved-title">
+        📁 Itens Salvos neste Celular
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
