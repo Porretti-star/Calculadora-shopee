@@ -1,1 +1,127 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Shopee</title>
+    <style>
+        * { box-sizing: border-box; }
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f4f5f7; margin: 0; padding: 15px; color: #333; }
+        .container { background-color: #ffffff; padding: 20px; border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); max-width: 480px; margin: 0 auto; }
+        h1 { text-align: center; color: #ee4d2d; font-size: 22px; margin-top: 0; margin-bottom: 20px; }
+        .section-title { font-size: 15px; font-weight: bold; margin-top: 15px; margin-bottom: 10px; color: #444; border-bottom: 2px solid #ee4d2d; padding-bottom: 4px; }
+        .input-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; font-weight: 600; font-size: 14px; color: #555; }
+        input[type="number"], input[type="text"] { width: 100%; padding: 10px 12px; border: 1px solid #ccc; border-radius: 6px; font-size: 15px; }
+        .btn-group { display: flex; gap: 8px; margin-top: 15px; }
+        button { flex: 1; padding: 12px; border: none; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; transition: background 0.2s; }
+        .btn-primary { background-color: #ee4d2d; color: white; }
+        .btn-primary:active { background-color: #d73211; }
+        .btn-secondary { background-color: #26a69a; color: white; }
+        .btn-secondary:active { background-color: #00897b; }
+        .btn-danger { background-color: #e53935; color: white; padding: 8px 10px; font-size: 12px; margin-top: 10px; flex: none; width: 100%; border-radius: 6px; }
+        #resultado { margin-top: 18px; padding: 15px; background-color: #fff8f6; border-radius: 8px; border: 1px solid #ffccbc; display: none; }
+        #resultado p { margin: 6px 0; font-size: 14px; }
+        .destaque { font-weight: bold; color: #d73211; }
+        
+        /* Histórico de Itens Salvos */
+        .historico-container { margin-top: 25px; background-color: #fafafa; padding: 15px; border-radius: 8px; border: 1px solid #e2e2e2; }
+        .historico-item { background: white; border: 1px solid #ddd; padding: 10px; border-radius: 6px; margin-bottom: 8px; position: relative; font-size: 13px; line-height: 1.5; }
+        .historico-item strong { color: #ee4d2d; font-size: 14px; display: block; margin-bottom: 2px; }
+        .btn-deletar-item { position: absolute; top: 8px; right: 8px; background: #ffcdd2; color: #c62828; border: none; border-radius: 4px; padding: 2px 8px; font-size: 11px; cursor: pointer; font-weight: bold; }
+        .vazio { text-align: center; color: #888; font-size: 13px; font-style: italic; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Calculadora Shopee</h1>
+        
+        <div class="input-group">
+            <label for="nome_produto">Nome do Produto / Referência:</label>
+            <input type="text" id="nome_produto" placeholder="Ex: Capinha de Celular">
+        </div>
+
+        <div class="input-group">
+            <label for="custo">Preço de Custo (R$):</label>
+            <input type="number" id="custo" placeholder="0,00" step="0.01">
+        </div>
+
+        <div class="input-group">
+            <label for="venda">Preço de Venda (R$):</label>
+            <input type="number" id="venda" placeholder="0,00" step="0.01">
+        </div>
+
+        <div class="btn-group">
+            <button class="btn-primary" onclick="calcular()">Calcular</button>
+            <button class="btn-secondary" onclick="salvarCalculo()">Salvar no Celular</button>
+        </div>
+
+        <div id="resultado">
+            <p>Comissão Shopee (18%): <span id="comissao" class="destaque"></span></p>
+            <p>Frete Vendedor: <span id="frete_vendedor" class="destaque">R$ 5,00</span></p>
+            <p>Recebimento Líquido: <span id="liquido" class="destaque"></span></p>
+            <p>Lucro Final: <span id="lucro" class="destaque"></span></p>
+        </div>
+
+        <div class="historico-container">
+            <div class="section-title">📂 Itens Salvos neste Celular</div>
+            <div id="lista_historico">
+                <p class="vazio">Nenhum cálculo salvo ainda.</p>
+            </div>
+            <button class="btn-danger" onclick="limparTudo()">Apagar Todo o Histórico</button>
+        </div>
+    </div>
+
+    <script>
+        let ultimoCalculo = null;
+        function calcular() {
+            let nome = document.getElementById('nome_produto').value.trim() || "Produto sem Nome";
+            let custo = parseFloat(document.getElementById('custo').value) || 0;
+            let venda = parseFloat(document.getElementById('venda').value) || 0;
+            let valorComissao = venda * 0.18;
+            let recebimentoLiquido = venda - valorComissao - 5.00;
+            let lucroFinal = recebimentoLiquido - custo;
+            document.getElementById('comissao').innerText = "R$ " + valorComissao.toFixed(2).replace('.', ',');
+            document.getElementById('liquido').innerText = "R$ " + recebimentoLiquido.toFixed(2).replace('.', ',');
+            let lucroSpan = document.getElementById('lucro');
+            lucroSpan.innerText = "R$ " + lucroFinal.toFixed(2).replace('.', ',');
+            lucroSpan.style.color = lucroFinal < 0 ? 'red' : '#2e7d32';
+            document.getElementById('resultado').style.display = 'block';
+            ultimoCalculo = { id: Date.now(), nome: nome, custo: custo, venda: venda, comissao: valorComissao, liquido: recebimentoLiquido, lucro: lucroFinal, data: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', {hour: '2-digit', minute:'2-digit'}) };
+        }
+        function salvarCalculo() {
+            if (!ultimoCalculo) calcular();
+            let historico = JSON.parse(localStorage.getItem('shopee_calculos_salvos')) || [];
+            historico.unshift(ultimoCalculo);
+            localStorage.setItem('shopee_calculos_salvos', JSON.stringify(historico));
+            alert('Item salvo com sucesso!');
+            atualizarListaHistorico();
+        }
+        function carregarHistorico() { return JSON.parse(localStorage.getItem('shopee_calculos_salvos')) || []; }
+        function atualizarListaHistorico() {
+            let historico = carregarHistorico();
+            let listaDiv = document.getElementById('lista_historico');
+            if (historico.length === 0) { listaDiv.innerHTML = '<p class="vazio">Nenhum cálculo salvo ainda.</p>'; return; }
+            let html = '';
+            historico.forEach((item) => {
+                let corLucro = item.lucro < 0 ? 'red' : '#2e7d32';
+                html += '<div class="historico-item"><button class="btn-deletar-item" onclick="deletarItem('+item.id+')">Excluir</button><strong>'+item.nome+'</strong><small style="color:#777;">Data: '+item.data+'</small><br><span>Custo: R$ '+item.custo.toFixed(2).replace('.', ',')+' | Venda: R$ '+item.venda.toFixed(2).replace('.', ',')+'</span><br><span>Recebimento: R$ '+item.liquido.toFixed(2).replace('.', ',')+'</span><br><span style="font-weight:bold; color: '+corLucro+'">Lucro: R$ '+item.lucro.toFixed(2).replace('.', ',')+'</span></div>';
+            });
+            listaDiv.innerHTML = html;
+        }
+        function deletarItem(id) {
+            let historico = carregarHistorico().filter(item => item.id !== id);
+            localStorage.setItem('shopee_calculos_salvos', JSON.stringify(historico));
+            atualizarListaHistorico();
+        }
+        function limparTudo() {
+            if (confirm("Deseja apagar todos os itens?")) {
+                localStorage.removeItem('shopee_calculos_salvos');
+                atualizarListaHistorico();
+            }
+        }
+        window.onload = atualizarListaHistorico;
+    </script>
+</body>
+</html>
 
