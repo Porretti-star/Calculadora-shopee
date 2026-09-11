@@ -281,6 +281,30 @@
 </div>
 
 <script>
+    function obterRegraShopee(venda) {
+        let comissaoBase = 20.0;
+        let taxaFixa = 4.00;
+
+        if (venda <= 79.99) {
+            comissaoBase = 20.0;
+            taxaFixa = 4.00;
+        } else if (venda <= 99.99) {
+            comissaoBase = 14.0;
+            taxaFixa = 16.00;
+        } else if (venda <= 199.99) {
+            comissaoBase = 14.0;
+            taxaFixa = 20.00;
+        } else if (venda <= 499.99) {
+            comissaoBase = 14.0;
+            taxaFixa = 26.00;
+        } else {
+            comissaoBase = 14.0;
+            taxaFixa = 26.00; // Faixa inicial >= R$ 500,00
+        }
+
+        return { comissaoBase, taxaFixa };
+    }
+
     function calcular() {
         const custo = parseFloat(document.getElementById('precoCusto').value) || 0;
         const venda = parseFloat(document.getElementById('precoVenda').value) || 0;
@@ -288,12 +312,14 @@
         const impostoPerc = parseFloat(document.getElementById('imposto').value) || 0;
         const datasDuplas = document.getElementById('campanhaDatasDuplas').checked;
 
-        let comissaoPerc = 20.0;
+        const regra = obterRegraShopee(venda);
+        
+        let comissaoPerc = regra.comissaoBase;
         if (datasDuplas) {
             comissaoPerc += 2.5;
         }
 
-        const taxaFixa = 4.00;
+        const taxaFixa = regra.taxaFixa;
         const valorComissao = venda * (comissaoPerc / 100);
         const totalMarketplace = valorComissao + taxaFixa;
 
