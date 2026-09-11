@@ -1,189 +1,409 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculadora Shopee</title>
-  <style>
-    body { font-family: Arial, sans-serif; background-color: #f4f6f9; margin: 0; padding: 15px; display: flex; justify-content: center; }
-    .container { background-color: #fff; padding: 20px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); width: 100%; max-width: 450px; }
-    h1 { text-align: center; color: #ee4d2d; font-size: 22px; margin-bottom: 15px; }
-    .form-group { margin-bottom: 12px; }
-    label { display: block; font-size: 13px; font-weight: bold; margin-bottom: 4px; color: #333; }
-    input[type="text"], input[type="number"], select { width: 100%; padding: 8px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-    .row { display: flex; gap: 10px; }
-    .row .form-group { flex: 1; }
-    .checkbox-group { display: flex; align-items: center; gap: 8px; font-size: 13px; margin: 10px 0; }
-    .btn-group { display: flex; gap: 10px; margin: 15px 0; }
-    button { flex: 1; padding: 10px; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; color: white; }
-    .btn-calcular { background-color: #ee4d2d; }
-    .btn-salvar { background-color: #27ae60; }
-    .resultado-box { background-color: #f8f9fa; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-top: 15px; }
-    .resultado-linha { display: flex; justify-content: space-between; margin-bottom: 6px; font-size: 13px; color: #4a5568; }
-    .resultado-linha.destaque { font-weight: bold; color: #2d3748; font-size: 15px; border-top: 1px solid #cbd5e1; padding-top: 6px; }
-    .saved-section { margin-top: 20px; border-top: 2px dashed #e2e8f0; padding-top: 15px; }
-    .saved-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px; }
-    .saved-header h2 { font-size: 16px; color: #333; margin: 0; }
-    .btn-limpar-tudo { background: #e53e3e; color: white; border: none; padding: 4px 8px; border-radius: 4px; font-size: 11px; cursor: pointer; }
-    .item-salvo { background: #f7fafc; border: 1px solid #edf2f7; padding: 8px; border-radius: 6px; margin-bottom: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
-    .btn-deletar-item { background: #feb2b2; color: #9b2c2c; border: none; border-radius: 4px; padding: 4px 8px; cursor: pointer; }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora Shopee v2.0</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+        body {
+            background-color: #f4f6f9;
+            display: flex;
+            justify-content: center;
+            padding: 15px;
+        }
+        .container {
+            background-color: #ffffff;
+            width: 100%;
+            max-width: 480px;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #ee4d2d;
+            text-align: center;
+            font-size: 22px;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 12px;
+        }
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333333;
+            margin-bottom: 4px;
+        }
+        input[type="text"],
+        input[type="number"] {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #cccccc;
+            border-radius: 6px;
+            font-size: 14px;
+        }
+        .row {
+            display: flex;
+            gap: 10px;
+        }
+        .col {
+            flex: 1;
+        }
+        .checkbox-group {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin: 15px 0;
+            font-size: 13px;
+            font-weight: bold;
+            color: #333333;
+        }
+        .checkbox-group input {
+            width: 16px;
+            height: 16px;
+        }
+        .btn-row {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        button {
+            flex: 1;
+            padding: 12px;
+            border: none;
+            border-radius: 6px;
+            font-size: 14px;
+            font-weight: bold;
+            color: #ffffff;
+            cursor: pointer;
+        }
+        .btn-calcular {
+            background-color: #ee4d2d;
+        }
+        .btn-salvar {
+            background-color: #26aa99;
+        }
+        .result-box {
+            background-color: #f9f9f9;
+            border: 1px solid #e5e5e5;
+            border-radius: 8px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+        .result-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 13px;
+            margin-bottom: 8px;
+            color: #555555;
+        }
+        .divider {
+            border-top: 1px solid #dddddd;
+            margin: 10px 0;
+        }
+        .lucro-row {
+            font-size: 15px;
+            font-weight: bold;
+            color: #000000;
+        }
+        .lucro-valor {
+            color: #26aa99;
+            font-size: 18px;
+        }
+        .saved-section {
+            border-top: 1px dashed #cccccc;
+            padding-top: 15px;
+        }
+        .saved-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .btn-limpar {
+            background-color: #ee4d2d;
+            color: #ffffff;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            cursor: pointer;
+            flex: unset;
+        }
+        .card-item {
+            background: #ffffff;
+            border: 1px solid #dddddd;
+            border-radius: 6px;
+            padding: 10px;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .card-info {
+            font-size: 13px;
+            flex-grow: 1;
+            padding-right: 8px;
+        }
+        .card-info strong {
+            display: block;
+            color: #333333;
+        }
+        .card-info small {
+            color: #666666;
+        }
+        .action-btns {
+            display: flex;
+            gap: 6px;
+        }
+        .btn-carregar {
+            background-color: #007bff;
+            color: #ffffff;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: unset;
+        }
+        .btn-excluir {
+            background-color: #ffcccc;
+            color: #cc0000;
+            border: none;
+            padding: 8px 12px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: bold;
+            cursor: pointer;
+            flex: unset;
+        }
+        .empty-msg {
+            font-size: 13px;
+            color: #777777;
+            text-align: center;
+            padding: 10px 0;
+        }
+    </style>
 </head>
 <body>
 
-  <div class="container">
+<div class="container">
     <h1>Calculadora Shopee</h1>
-
+    
     <div class="form-group">
-      <label for="nomeProduto">Nome do Produto / Referência:</label>
-      <input type="text" id="nomeProduto" placeholder="Ex: Areia Gato Bill Fardo">
+        <label>Nome do Produto / Referência:</label>
+        <input type="text" id="nomeProduto" placeholder="Ex: Areia Gato Bill Fardo">
     </div>
 
     <div class="row">
-      <div class="form-group">
-        <label for="precoCusto">Preço de Custo (R$):</label>
-        <input type="number" id="precoCusto" placeholder="0.00" step="0.01">
-      </div>
-      <div class="form-group">
-        <label for="precoVenda">Preço de Venda (R$):</label>
-        <input type="number" id="precoVenda" placeholder="0.00" step="0.01">
-      </div>
+        <div class="form-group col">
+            <label>Preço de Custo (R$):</label>
+            <input type="number" id="precoCusto" step="0.01" placeholder="0.00">
+        </div>
+        <div class="form-group col">
+            <label>Preço de Venda (R$):</label>
+            <input type="number" id="precoVenda" step="0.01" placeholder="0.00">
+        </div>
     </div>
 
-    <!-- NOVOS CAMPOS: EMBALAGEM E IMPOSTO -->
     <div class="row">
-      <div class="form-group">
-        <label for="custoEmbalagem">Embalagem (R$):</label>
-        <input type="number" id="custoEmbalagem" placeholder="0.00" step="0.01">
-      </div>
-      <div class="form-group">
-        <label for="aliquotaImposto">Imposto (%):</label>
-        <input type="number" id="aliquotaImposto" placeholder="0" step="0.1">
-      </div>
+        <div class="form-group col">
+            <label>Embalagem (R$):</label>
+            <input type="number" id="embalagem" step="0.01" placeholder="0.00" value="0">
+        </div>
+        <div class="form-group col">
+            <label>Imposto (%):</label>
+            <input type="number" id="imposto" step="0.01" placeholder="0" value="0">
+        </div>
     </div>
 
     <div class="checkbox-group">
-      <input type="checkbox" id="datasDuplas">
-      <label for="datasDuplas" style="margin:0;">Campanha Datas Duplas (+2.5% comissão)</label>
+        <input type="checkbox" id="campanhaDatasDuplas">
+        <label for="campanhaDatasDuplas" style="margin-bottom:0; cursor:pointer;">Campanha Datas Duplas (+2.5% comissão)</label>
     </div>
 
-    <div class="btn-group">
-      <button class="btn-calcular" onclick="calcular()">Calcular</button>
-      <button class="btn-salvar" onclick="salvarItem()">Salvar no Celular</button>
+    <div class="btn-row">
+        <button class="btn-calcular" onclick="calcular()">Calcular</button>
+        <button class="btn-salvar" onclick="salvarItem()">Salvar no Celular</button>
     </div>
 
-    <div class="resultado-box">
-      <div class="resultado-linha"><span>Comissão %:</span><span id="resComissaoPct">0%</span></div>
-      <div class="resultado-linha"><span>Taxa Fixa da Faixa:</span><span id="resTaxaFixa">R$ 0,00</span></div>
-      <div class="resultado-linha"><span>Imposto Calculado:</span><span id="resImposto">R$ 0,00</span></div>
-      <div class="resultado-linha"><span>Total de Taxas e Custos:</span><span id="resTotalCustos">R$ 0,00</span></div>
-      <div class="resultado-linha"><span>Valor Líquido Recebido:</span><span id="resLiquido">R$ 0,00</span></div>
-      <div class="resultado-linha destaque"><span>Lucro Bruto:</span><span id="resLucro">R$ 0,00</span></div>
-      <div class="resultado-linha"><span>Margem de Lucro:</span><span id="resMargem">0%</span></div>
+    <div class="result-box">
+        <div class="result-row">
+            <span>Comissão %:</span>
+            <span id="resComissaoPerc">0%</span>
+        </div>
+        <div class="result-row">
+            <span>Taxa Fixa da Faixa:</span>
+            <span id="resTaxaFixa">R$ 0,00</span>
+        </div>
+        <div class="result-row">
+            <span>Imposto Calculado:</span>
+            <span id="resImpostoValor">R$ 0,00</span>
+        </div>
+        <div class="result-row">
+            <span>Total de Taxas e Custos:</span>
+            <span id="resTotalCustos">R$ 0,00</span>
+        </div>
+        <div class="result-row">
+            <span>Valor Líquido Recebido:</span>
+            <span id="resLiquido">R$ 0,00</span>
+        </div>
+        <div class="divider"></div>
+        <div class="result-row lucro-row">
+            <span>Lucro Bruto:</span>
+            <span id="resLucroBruto" class="lucro-valor">R$ 0,00</span>
+        </div>
+        <div class="result-row">
+            <span>Margem de Lucro:</span>
+            <span id="resMargem">0%</span>
+        </div>
     </div>
 
     <div class="saved-section">
-      <div class="saved-header">
-        <h2>📁 Itens Salvos neste Celular</h2>
-        <button class="btn-limpar-tudo" onclick="limparTudo()">Limpar Tudo</button>
-      </div>
-      <div id="listaItensSalvos"></div>
+        <div class="saved-header">
+            <span>📁 Itens Salvos neste Celular</span>
+            <button class="btn-limpar" onclick="limparTudo()">Limpar Tudo</button>
+        </div>
+        <div id="listaItens">
+            <div class="empty-msg">Nenhum item salvo ainda.</div>
+        </div>
     </div>
-  </div>
+</div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', carregarItens);
-
+<script>
     function calcular() {
-      const custo = parseFloat(document.getElementById('precoCusto').value) || 0;
-      const venda = parseFloat(document.getElementById('precoVenda').value) || 0;
-      const embalagem = parseFloat(document.getElementById('custoEmbalagem').value) || 0;
-      const impostoPct = parseFloat(document.getElementById('aliquotaImposto').value) || 0;
-      const datasDuplas = document.getElementById('datasDuplas').checked;
+        const custo = parseFloat(document.getElementById('precoCusto').value) || 0;
+        const venda = parseFloat(document.getElementById('precoVenda').value) || 0;
+        const embalagem = parseFloat(document.getElementById('embalagem').value) || 0;
+        const impostoPerc = parseFloat(document.getElementById('imposto').value) || 0;
+        const datasDuplas = document.getElementById('campanhaDatasDuplas').checked;
 
-      // Comissão padrão Shopee (14% + 6% frete grátis = 20%). Datas duplas adiciona +2.5%
-      let comissaoPct = 20.0;
-      if (datasDuplas) comissaoPct += 2.5;
+        let comissaoPerc = 20.0;
+        if (datasDuplas) {
+            comissaoPerc += 2.5;
+        }
 
-      let valorComissao = venda * (comissaoPct / 100);
-      if (valorComissao > 100) valorComissao = 100; // Teto de R$ 100
+        const taxaFixa = 4.00;
+        const valorComissao = venda * (comissaoPerc / 100);
+        const totalMarketplace = valorComissao + taxaFixa;
 
-      const taxaFixa = venda > 0 ? (venda < 10 ? 2.00 : 4.00) : 0;
-      const valorImposto = venda * (impostoPct / 100);
+        const valorImposto = venda * (impostoPerc / 100);
+        const totalTaxasCustos = custo + embalagem + totalMarketplace + valorImposto;
+        const valorLiquidoRecebido = venda - totalMarketplace;
+        
+        const lucroBruto = valorLiquidoRecebido - custo - embalagem - valorImposto;
+        const margemLucro = venda > 0 ? (lucroBruto / venda) * 100 : 0;
 
-      const totalTaxasShopee = valorComissao + taxaFixa;
-      const totalCustos = custo + embalagem + valorImposto + totalTaxasShopee;
-      const valorLiquido = venda - totalTaxasShopee;
-      const lucro = venda - totalCustos;
-      const margem = venda > 0 ? (lucro / venda) * 100 : 0;
-
-      document.getElementById('resComissaoPct').innerText = comissaoPct.toFixed(1) + '%';
-      document.getElementById('resTaxaFixa').innerText = formatarMoeda(taxaFixa);
-      document.getElementById('resImposto').innerText = formatarMoeda(valorImposto);
-      document.getElementById('resTotalCustos').innerText = formatarMoeda(totalCustos);
-      document.getElementById('resLiquido').innerText = formatarMoeda(valorLiquido);
-      document.getElementById('resLucro').innerText = formatarMoeda(lucro);
-      document.getElementById('resMargem').innerText = margem.toFixed(2) + '%';
-
-      return { custo, venda, embalagem, impostoPct, lucro, margem };
-    }
-
-    function formatarMoeda(valor) {
-      return valor.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+        document.getElementById('resComissaoPerc').innerText = comissaoPerc.toFixed(1) + '%';
+        document.getElementById('resTaxaFixa').innerText = 'R$ ' + taxaFixa.toFixed(2).replace('.', ',');
+        document.getElementById('resImpostoValor').innerText = 'R$ ' + valorImposto.toFixed(2).replace('.', ',');
+        document.getElementById('resTotalCustos').innerText = 'R$ ' + totalTaxasCustos.toFixed(2).replace('.', ',');
+        document.getElementById('resLiquido').innerText = 'R$ ' + valorLiquidoRecebido.toFixed(2).replace('.', ',');
+        document.getElementById('resLucroBruto').innerText = 'R$ ' + lucroBruto.toFixed(2).replace('.', ',');
+        document.getElementById('resMargem').innerText = margemLucro.toFixed(2).replace('.', ',') + '%';
     }
 
     function salvarItem() {
-      const nome = document.getElementById('nomeProduto').value;
-      if (!nome) {
-        alert('Por favor, digite o Nome do Produto/Referência.');
-        return;
-      }
-      const res = calcular();
-      const item = { id: Date.now(), nome, custo: res.custo, venda: res.venda };
+        const nome = document.getElementById('nomeProduto').value.trim();
+        const custo = parseFloat(document.getElementById('precoCusto').value) || 0;
+        const venda = parseFloat(document.getElementById('precoVenda').value) || 0;
+        const embalagem = parseFloat(document.getElementById('embalagem').value) || 0;
+        const imposto = parseFloat(document.getElementById('imposto').value) || 0;
+        const datasDuplas = document.getElementById('campanhaDatasDuplas').checked;
 
-      let itens = JSON.parse(localStorage.getItem('shopee_itens')) || [];
-      itens.push(item);
-      localStorage.setItem('shopee_itens', JSON.stringify(itens));
-      carregarItens();
+        if (!nome) {
+            alert('Por favor, informe o nome do produto.');
+            return;
+        }
+
+        const item = { nome, custo, venda, embalagem, imposto, datasDuplas };
+
+        let itens = JSON.parse(localStorage.getItem('shopee_itens')) || JSON.parse(localStorage.getItem('itensSalvosShopee')) || [];
+        itens.push(item);
+
+        localStorage.setItem('shopee_itens', JSON.stringify(itens));
+        localStorage.setItem('itensSalvosShopee', JSON.stringify(itens));
+        renderizarItens();
+        alert('Item salvo com sucesso!');
     }
 
-    function carregarItens() {
-      const lista = document.getElementById('listaItensSalvos');
-      const itens = JSON.parse(localStorage.getItem('shopee_itens')) || [];
-      lista.innerHTML = '';
+    function renderizarItens() {
+        const listaContainer = document.getElementById('listaItens');
+        let itens = JSON.parse(localStorage.getItem('shopee_itens')) || JSON.parse(localStorage.getItem('itensSalvosShopee')) || [];
 
-      if (itens.length === 0) {
-        lista.innerHTML = '<div style="color: #718096; font-size: 13px;">Nenhum item salvo ainda.</div>';
-        return;
-      }
+        if (itens.length === 0) {
+            listaContainer.innerHTML = '<div class="empty-msg">Nenhum item salvo ainda.</div>';
+            return;
+        }
 
-      itens.forEach(item => {
-        const div = document.createElement('div');
-        div.className = 'item-salvo';
-        div.innerHTML = `
-          <div>
-            <strong>${item.nome}</strong><br>
-            Custo: ${formatarMoeda(item.custo)} | Venda: ${formatarMoeda(item.venda)}
-          </div>
-          <button class="btn-deletar-item" onclick="deletarItem(${item.id})">Excluir</button>
-        `;
-        lista.appendChild(div);
-      });
+        listaContainer.innerHTML = '';
+
+        itens.forEach((item, index) => {
+            const card = document.createElement('div');
+            card.className = 'card-item';
+
+            card.innerHTML = `
+                <div class="card-info">
+                    <strong>${item.nome}</strong>
+                    <small>Custo: R$ ${Number(item.custo).toFixed(2).replace('.', ',')} | Venda: R$ ${Number(item.venda).toFixed(2).replace('.', ',')}</small>
+                </div>
+                <div class="action-btns">
+                    <button class="btn-carregar" type="button" onclick="carregarItem(${index})">Abrir</button>
+                    <button class="btn-excluir" type="button" onclick="excluirItem(${index})">Excluir</button>
+                </div>
+            `;
+
+            listaContainer.appendChild(card);
+        });
     }
 
-    function deletarItem(id) {
-      let itens = JSON.parse(localStorage.getItem('shopee_itens')) || [];
-      itens = itens.filter(item => item.id !== id);
-      localStorage.setItem('shopee_itens', JSON.stringify(itens));
-      carregarItens();
+    function carregarItem(index) {
+        let itens = JSON.parse(localStorage.getItem('shopee_itens')) || JSON.parse(localStorage.getItem('itensSalvosShopee')) || [];
+        const item = itens[index];
+
+        if (item) {
+            document.getElementById('nomeProduto').value = item.nome;
+            document.getElementById('precoCusto').value = item.custo;
+            document.getElementById('precoVenda').value = item.venda;
+            document.getElementById('embalagem').value = item.embalagem || 0;
+            document.getElementById('imposto').value = item.imposto || 0;
+            document.getElementById('campanhaDatasDuplas').checked = item.datasDuplas || false;
+
+            calcular();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    }
+
+    function excluirItem(index) {
+        let itens = JSON.parse(localStorage.getItem('shopee_itens')) || JSON.parse(localStorage.getItem('itensSalvosShopee')) || [];
+        itens.splice(index, 1);
+        localStorage.setItem('shopee_itens', JSON.stringify(itens));
+        localStorage.setItem('itensSalvosShopee', JSON.stringify(itens));
+        renderizarItens();
     }
 
     function limparTudo() {
-      if (confirm('Tem certeza que deseja apagar todos os itens salvos?')) {
-        localStorage.removeItem('shopee_itens');
-        carregarItens();
-      }
+        if (confirm('Deseja apagar todos os itens salvos?')) {
+            localStorage.removeItem('shopee_itens');
+            localStorage.removeItem('itensSalvosShopee');
+            renderizarItens();
+        }
     }
-  </script>
+
+    window.onload = function() {
+        renderizarItens();
+    };
+</script>
+
 </body>
 </html>
